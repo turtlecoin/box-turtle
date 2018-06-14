@@ -1,0 +1,114 @@
+<!--    
+2014 XDN Developers
+2018 TurtleCoin Developers
+ -->
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" name="viewport">
+  <title>box turtle</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js">
+  </script>
+  <script src="rpc.js">
+  </script>
+  <style>
+        .rpc-result {
+            font-size: large;
+            color: green;
+        }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- LOGO -->
+    <div class="row">
+      <div class="col">
+        <p class="display-1">🐢</p>
+        <h1>Box Turtle - Home Wallet</h1>
+      </div>
+    </div><br>
+    <!-- HOST AND PORT -->
+    <div class="row">
+      <div class="col-8">
+        <div class="input-group input-group-lg">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <strong>💳 Host</strong>
+            </div>
+          </div><input class="form-control" id="rpcHost" name="textinput" placeholder="localhost" type="text" value="localhost">
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group input-group-lg">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <strong>🔌 Port</strong>
+            </div>
+          </div><input class="form-control" id="rpcPort" name="textinput" placeholder="11898" type="text" value="11898">
+        </div>
+      </div>
+    </div><br>
+    <!-- TRANSFER TO: RECIPIENT -->
+    <div class="row">
+      <div class="col rpc-method">
+        <input name="params[mixin]" type="hidden" value="10"> <input name="params[unlock_time]" type="hidden" value="0">
+        <div class="input-group input-group-lg">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <strong>👨‍💻 To:</strong>
+            </div>
+          </div><input class="form-control" name="params[destinations][0][address]" placeholder="Address" type="text">
+        </div>
+      </div>
+    </div><br>
+    <!-- AMOUNT / FEE / MIXIN -->
+    <div class="row">
+      <div class="col">
+        <div class="input-group input-group-lg">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <strong>💸 TRTL</strong>
+            </div>
+          </div><input class="form-control" name="params[destinations][0][amount]" placeholder="Amount" type="text">
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="input-group input-group-lg">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <strong>💵 Fee</strong>
+            </div>
+          </div><input class="form-control" name="params[fee]" placeholder="Fee" type="text" value="1">
+        </div>
+      </div><!-- <div class="col-3">
+        <div class="input-group input-group-lg">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><strong>🕵 Mix</strong></div>
+          </div>
+          <input name="params[mixin]" placeholder="Mixin" class="form-control" type="text" value="10">
+        </div>
+      </div> -->
+    </div><br>
+    <!-- RESULTS -->
+    <div class="row">
+      <div class="col">
+        <div class="rpc-result"></div>
+      </div>
+    </div><!-- BUTTONS -->
+    <div class="row">
+      <div class="col rpc-method">
+        <button class="btn btn-success rpc-submit btn-block btn-lg" data-method="getbalance">Check Balance</button>
+      </div><!-- <div class="col rpc-method">
+        <button class="btn btn-default rpc-submit btn-block" data-method="store">Save blockchain</button>
+      </div> -->
+      <div class="col rpc-method">
+        <button class="btn btn-primary rpc-submit btn-block btn-lg" data-method="transfer">Transfer funds</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
