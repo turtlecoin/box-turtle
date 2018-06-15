@@ -71,7 +71,7 @@ $(function() {
   }
 
   function handleResult(method, result, $resultNode) {
-    if (method == 'getbalance') {
+    if (method == 'getBalance') {
       console.log('R', $resultNode);
       $resultNode.html('</br>Locked: ' + parseNum(result.balance) + ' </br> Unlocked: ' + parseNum(result.unlocked_balance));
     } else if (method == 'transfer') {
