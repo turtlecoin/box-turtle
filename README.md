@@ -13,8 +13,8 @@ Currently CORS will prevent this from just werking, so for now you can launch ch
 
 `chromium index.html --disable-web-security --user-data-dir .`
 
-TODO: Add last 10 transactions
-TODO: Add output window so the user knows where to expect to look for output
-TODO: Add CORS header to walletd
-TODO: Payment ID's
-TODO: Get users address
+- [ ] TODO: Add last 10 transactions
+- [ ] TODO: Add output window so the user knows where to expect to look for output
+- [ ] TODO: Add CORS header to walletd
+- [ ] TODO: Payment ID's
+- [ ] TODO: Get users address
