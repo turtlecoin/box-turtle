@@ -1,7 +1,6 @@
 # box-turtle
 ### web wallet in a box - Dont expose this to the internet or you'll lose everything. 
 
---
 ![image](https://user-images.githubusercontent.com/34389545/41516136-7ff3acf4-72a2-11e8-8241-7afb6daa9c12.png)
 --
 
