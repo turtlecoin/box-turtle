@@ -3,7 +3,7 @@ web wallet in a box - Dont expose this to the internet or you'll lose everything
 
 Start up walletd:
 
-`./walletd --wallet-file YOURWALLET.wallet --password YOURPASSWORD --rpc-password tes --daemon-address public.turtlenode.io`
+`./walletd --wallet-file YOURWALLET.wallet --password YOURPASSWORD --rpc-password test --daemon-address public.turtlenode.io`
 
 Alternatively, you can remove the --daemon-address arg to use a local TurtleCoind you've got open.
 
