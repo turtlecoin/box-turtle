@@ -6,9 +6,9 @@
 
 Start up walletd:
 
-`./walletd --wallet-file YOURWALLET.wallet --password YOURPASSWORD --rpc-password test --daemon-address public.turtlenode.io`
+`./walletd -w YOURWALLET.wallet --password YOURPASSWORD --rpc-password test --daemon-address public.turtlenode.io`
 
-Alternatively, you can remove the --daemon-address arg to use a local TurtleCoind you've got open.
+Alternatively, you can use --daemon-address 127.0.0.1 to use a local TurtleCoind you've got open.
 
 If you want to change the RPC password, set it in the config.js file.
 
