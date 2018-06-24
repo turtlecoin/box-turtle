@@ -24,6 +24,8 @@ function callRpc(method, params, callback)
         "method" : method,
         "password" : config.rpcPassword
     };
+
+    console.log('Sending RPC request to ' + url + ' with parameters: ' + JSON.stringify(params))
     
     var resultNode = document.getElementById("rpc-result");
     /* Clear any previous errors */
@@ -43,8 +45,12 @@ function callRpc(method, params, callback)
 
         error: function(jqXHR, textStatus, errorThrown)
         {
-            resultNode.innerHTML = "Failed to contact walletd: " + textStatus;
-            callback({success: false, result: textStatus});
+            console.log('Failed to contact walletd: jqXHR = ' + jqXHR + 
+                        ', textStatus = ' + textStatus + ', errorThrown = ' +
+                        errorThrown)
+
+            resultNode.innerHTML = "Failed to contact walletd: " + errorThrown;
+            callback({success: false, result: errorThrown});
         },
 
         dataType: "json"
@@ -120,11 +126,13 @@ $(document).ready(function()
 
     $('#getBalance').click(function()
     {
+        console.log('getBalance() clicked...')
         getBalance();
     });
 
     $('#sendTransaction').click(function()
     {
+        console.log('sendTransaction() clicked...')
         resultNode.innerHTML = "";
 
         var address = $("#address").val();
