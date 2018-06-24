@@ -129,7 +129,7 @@ $(document).ready(function()
 
         var address = $("#address").val();
         var amount = $("#amount").val();
-        var fee = $("fee").val();
+        var fee = $("#fee").val();
 
         if (address.length != config.addressLength)
         {
