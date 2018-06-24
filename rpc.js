@@ -49,7 +49,15 @@ function callRpc(method, params, callback)
                         ', textStatus = ' + textStatus + ', errorThrown = ' +
                         errorThrown)
 
-            resultNode.innerHTML = "Failed to contact walletd: " + errorThrown;
+            if (errorThrown != "")
+            {
+                resultNode.innerHTML = "Failed to contact walletd: " + errorThrown;
+            }
+            else
+            {
+                resultNode.innerHTML = "Failed to contact walletd: Is walletd open, with the cors header enabled?";
+            }
+
             callback({success: false, result: errorThrown});
         },
 
