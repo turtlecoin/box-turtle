@@ -6,7 +6,7 @@
 
 Start up walletd:
 
-`./walletd -w YOURWALLET.wallet --p YOURPASSWORD --rpc-password test --daemon-address public.turtlenode.io --enable-cors "*"`
+`./walletd -w YOURWALLET.wallet -p YOURPASSWORD --rpc-password test --daemon-address public.turtlenode.io --enable-cors "*"`
 
 Alternatively, you can use --daemon-address 127.0.0.1 to use a local TurtleCoind you've got open.
 
