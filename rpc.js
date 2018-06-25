@@ -149,10 +149,7 @@ $(document).ready(function()
         var address = $("#address").val();
         var amount = $("#amount").val();
         var fee = $("#fee").val();
-<<<<<<< HEAD
 		//var paymentId = $("paymentId").val();
-=======
->>>>>>> a82a75ccfc354f7c4acdfa9c3ad9b02e23bbaf03
 
         if (address.length != config.addressLength || !address.startsWith("TRTL"))
         {
