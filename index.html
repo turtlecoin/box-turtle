@@ -74,7 +74,7 @@
             <div class="input-group-text">
               <strong>💸 TRTL</strong>
             </div>
-          </div><input class="form-control" id="amount" placeholder="Amount" min="0.01" type="number" required>
+          </div><input class="form-control" id="amount" placeholder="Amount" min="0.01" step="0.01" type="number" required>
         </div>
       </div>
       <div class="col-4">
@@ -83,16 +83,23 @@
             <div class="input-group-text">
               <strong>💵 Fee</strong>
             </div>
-          </div><input class="form-control" id="fee" placeholder="Fee" value="0.1" min="0.1" type="number" required>
+          </div><input class="form-control" id="fee" placeholder="Fee" value="0.1" min="0.1" step="0.1" type="number" required>
         </div>
       </div>
     </div><br>
-    <!-- RESULTS -->
-    <div class="row">
+	<!-- Payment Id -->
+    <!--<div class="row">
       <div class="col">
-        <p id="rpc-result"></p>
+        <div class="input-group input-group-lg">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <strong>🎟  Payment ID</strong>
+            </div>
+          </div><input class="form-control" id="paymentId" placeholder="Payment Id (optional)" type="text">
+        </div>
       </div>
-    </div><!-- BUTTONS -->
+    </div><br> -->
+	<!-- BUTTONS -->
     <div class="row">
       <div class="col rpc-method">
         <button class="btn btn-success btn-block btn-lg" id="getBalance" data-method="getBalance">Check Balance</button>
@@ -101,6 +108,18 @@
         <button class="btn btn-primary btn-block btn-lg" id="sendTransaction" data-method="sendTransaction">Transfer funds</button>
       </div>
     </div>
+	<!-- RESULTS -->
+	<div class="row">
+      <div class="col">
+		<div class="output" style="border-radius: 0.3rem;background-color: #e9ecef;margin-top: 1.25rem;padding: 0.5rem;font-weight: 700;line-height: 30px;">
+		  <div class="row">
+		    <div class="col">
+			  <p id="rpc-result">Output will be here.</p>
+			</div>
+		   </div>
+		</div>
+	  </div>
+	</div>
   </div>
 </body>
 </html>

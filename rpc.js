@@ -27,11 +27,13 @@ function callRpc(method, params, callback)
 
     console.log('Sending RPC request to ' + url + ' with parameters: ' + JSON.stringify(params))
     
+    console.log('Sending RPC request to ' + url + ' with parameters: ' + JSON.stringify(params))
+    
     var resultNode = document.getElementById("rpc-result");
     /* Clear any previous errors */
     resultNode.innerHTML = "";
 
-    $.ajax(
+        $.ajax(
     {
         url: url,
         type: "POST",
@@ -72,6 +74,7 @@ function sendTransaction(address, amount, fee)
         "transfers" : [{address: address, amount: toAtomic(amount)}],
         "fee" : toAtomic(fee),
         "anonymity" : config.mixin
+		//"paymentId" : paymentId
     };
 
     var returnValue = callRpc("sendTransaction", params, function(returnValue)
@@ -146,11 +149,15 @@ $(document).ready(function()
         var address = $("#address").val();
         var amount = $("#amount").val();
         var fee = $("#fee").val();
+<<<<<<< HEAD
+		//var paymentId = $("paymentId").val();
+=======
+>>>>>>> a82a75ccfc354f7c4acdfa9c3ad9b02e23bbaf03
 
-        if (address.length != config.addressLength)
+        if (address.length != config.addressLength || !address.startsWith("TRTL"))
         {
             resultNode.innerHTML = "Address is incorrect length! Should be "
-                                 + config.addressLength + " characters.";
+                                 + config.addressLength + " characters and start with TRTL.";
             return;
         }
 
@@ -168,6 +175,6 @@ $(document).ready(function()
             return;
         }
 
-        sendTransaction(address, amount, fee);
+        sendTransaction(address, amount, fee); // , paymentId);
     });
 });
