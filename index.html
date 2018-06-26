@@ -22,7 +22,45 @@
             font-size: large;
             color: green;
         }
-  </style>
+/* The Confirm Modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.Modalclose {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.Modalclose:hover,
+.Modalclose:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
 </head>
 <body>
   <div class="container">
@@ -105,7 +143,7 @@
         <button class="btn btn-success btn-block btn-lg" id="getBalance" data-method="getBalance">Check Balance</button>
       </div>
       <div class="col rpc-method">
-        <button class="btn btn-primary btn-block btn-lg" id="sendTransaction" data-method="sendTransaction">Transfer funds</button>
+        <button class="btn btn-primary btn-block btn-lg" id="Modalbtn">Transfer Funds</button> <!-- Calls modal -->
       </div>
     </div>
 	<!-- RESULTS -->
@@ -121,5 +159,32 @@
 	  </div>
 	</div>
   </div>
+  <div id="Modal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="Modalclose">&times;</span>
+    <p id="Modaltext">Confirm</p><br><button class="btn btn-primary btn-block" id="sendTransaction" data-method="sendTransaction">Yes, transfer</button>
+
+  </div>
+  <script>
+var modal = document.getElementById('Modal');
+var Modalbtn = document.getElementById("Modalbtn");
+var span = document.getElementsByClassName("Modalclose")[0];
+Modalbtn.onclick = function() {
+	document.getElementById("Modaltext").innerHTML = "Are you sure you want to transfer " + document.getElementById('amount').value + " TRTL with " + document.getElementById('fee').value + " fee, to " + document.getElementById('address').value + " ?";
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+</div>
 </body>
 </html>
