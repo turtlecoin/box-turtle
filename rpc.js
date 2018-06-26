@@ -174,7 +174,6 @@ $(document).ready(function()
         var amount = $("#amount").val();
         var fee = $("#fee").val();
 		var paymentId = $("#paymentId").val();
-		console.log(paymentId);
 
         if (address.length != config.addressLength || !address.startsWith("TRTL"))
         {
@@ -196,6 +195,15 @@ $(document).ready(function()
                                  + config.minFee + " TRTL.";
             return;
         }
+		
+		if (paymentId) {
+				console.log("has PaymentId");
+				
+				if (!(/^[0-9A-F]{64}$/i.test(paymentId))) {
+					resultNode.innerHTML = "PaymentId is not a hexdecimal 64 byte string!"
+					return;
+				}
+		}
 
         sendTransaction(address, amount, fee, paymentId);
     });
