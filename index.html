@@ -60,6 +60,23 @@
     text-decoration: none;
     cursor: pointer;
 }
+.HamburgerShowMore{
+  font-size: 14px;
+  display:block;
+  text-decoration: underline;  
+  cursor: pointer;
+  
+}
+.HamburgerShowMore + input{
+  display:none;
+}
+.HamburgerShowMore + input + *{
+  display:none;
+}
+.HamburgerShowMore + input:checked + *{
+  display:block;
+    
+}
 </style>
 </head>
 <body>
@@ -72,6 +89,8 @@
       </div>
     </div><br>
     <!-- HOST AND PORT -->
+	<label class="HamburgerShowMore" for="_1"><h4>Show Walletd host and port</h4></label>
+	<input id="_1" type="checkbox">
     <div class="row">
       <div class="col-8">
         <div class="input-group input-group-lg">
