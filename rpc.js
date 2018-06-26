@@ -127,6 +127,30 @@ function getBalance()
     });
 }
 
+function getAddresses()
+{
+    var returnValue = callRpc("getAddresses", {}, function(returnValue)
+    {
+        if (returnValue.success)
+        {
+            var resultNode = document.getElementById("rpc-result");
+
+            if (returnValue.result.hasOwnProperty("error"))
+            {
+                resultNode.innerHTML = "Failed to get address, error: "
+                                     + returnValue.result.error.message;
+            }
+            else
+            {
+                /* eep! */
+                var json = returnValue.result.result;
+
+                resultNode.innerHTML = "Address " + json.addresses;
+            }
+        }
+    });
+}
+
 
 $(document).ready(function()
 {
@@ -173,5 +197,10 @@ $(document).ready(function()
         }
 
         sendTransaction(address, amount, fee); // , paymentId);
+    });
+	$('#getAddresses').click(function()
+    {
+        console.log('getAddresses() clicked...')
+        getAddresses();
     });
 });

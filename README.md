@@ -18,3 +18,4 @@ Make sure you are using a version of walletd that supports the --enable-cors arg
 - [ ] TODO: Payment ID's
 - [ ] TODO: Get users address
 - [ ] TODO: Move HOST and PORT to a hidden DIV exposed by clicking the Turtle or a hamburger or something.
+
