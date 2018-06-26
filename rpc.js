@@ -67,14 +67,14 @@ function callRpc(method, params, callback)
     });
 }
 
-function sendTransaction(address, amount, fee)
+function sendTransaction(address, amount, fee, paymentId)
 {
     var params =
     {
         "transfers" : [{address: address, amount: toAtomic(amount)}],
         "fee" : toAtomic(fee),
-        "anonymity" : config.mixin
-		//"paymentId" : paymentId
+        "anonymity" : config.mixin,
+		"paymentId" : paymentId
     };
 
     var returnValue = callRpc("sendTransaction", params, function(returnValue)
@@ -173,7 +173,8 @@ $(document).ready(function()
         var address = $("#address").val();
         var amount = $("#amount").val();
         var fee = $("#fee").val();
-		//var paymentId = $("paymentId").val();
+		var paymentId = $("#paymentId").val();
+		console.log(paymentId);
 
         if (address.length != config.addressLength || !address.startsWith("TRTL"))
         {
@@ -196,7 +197,7 @@ $(document).ready(function()
             return;
         }
 
-        sendTransaction(address, amount, fee); // , paymentId);
+        sendTransaction(address, amount, fee, paymentId);
     });
 	$('#getAddresses').click(function()
     {
