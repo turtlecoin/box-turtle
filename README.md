@@ -16,4 +16,3 @@ Make sure you are using a version of walletd that supports the --enable-cors arg
 
 - [ ] TODO: Add last 10 transactions
 - [ ] TODO: Payment ID's
-- [ ] TODO: Get users address
