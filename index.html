@@ -5,7 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-  <meta charset="UTF-8">
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" name="viewport">
   <title>box turtle</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
@@ -13,9 +14,9 @@
   </script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js">
   </script>
-  <script src="config.js">
+  <script src="config.js" content="text/javascript; charset=utf-8">
   </script>
-  <script src="rpc.js">
+  <script src="rpc.js" content="text/javascript; charset=utf-8">
   </script>
   <style>
         .rpc-result {
@@ -89,7 +90,7 @@
       </div>
     </div><br>
     <!-- HOST AND PORT -->
-	<label class="HamburgerShowMore" for="_1"><h4>Show Walletd host and port</h4></label>
+	<label class="btn btn-lrg btn-info HamburgerShowMore" for="_1"><h4>Show Walletd host and port</h4></label>
 	<input id="_1" type="checkbox">
     <div class="row">
       <div class="col-8">
@@ -161,11 +162,14 @@
       <div class="col rpc-method">
         <button class="btn btn-success btn-block btn-lg" id="getBalance" data-method="getBalance">Check Balance</button>
       </div>
-      <div class="col rpc-method">
-        <button class="btn btn-primary btn-block btn-lg" id="Modalbtn">Transfer Funds</button> <!-- Calls modal -->
+	  <div class="col rpc-method">
+        <button class="btn btn-primary btn-block btn-lg" id="getTransactions" data-method="getTransactions">Check Transactions</button>
       </div>
 	  <div class="col rpc-method">
         <button class="btn btn-info btn-block btn-lg" id="getAddresses" data-method="getAddresses">Get Address</button>
+      </div>
+      <div class="col rpc-method">
+        <button class="btn btn-warning btn-block btn-lg" id="Modalbtn">Transfer Funds</button> <!-- Calls modal -->
       </div>
     </div>
 	<!-- RESULTS -->
@@ -185,7 +189,7 @@
   <!-- Modal content -->
   <div class="modal-content">
     <span class="Modalclose">&times;</span>
-    <p id="Modaltext">Confirm</p><br><button class="btn btn-primary btn-block" id="sendTransaction" data-method="sendTransaction">Yes, transfer</button>
+    <p id="Modaltext">Confirm</p><br><button class="btn btn-danger btn-block" id="sendTransaction" data-method="sendTransaction">Yes, transfer</button>
 
   </div>
   <script>
@@ -206,6 +210,7 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
 </script>
 </div>
 </body>

@@ -127,12 +127,15 @@ function getBalance()
     });
 }
 
+
+ 
 function getAddresses()
 {
     var returnValue = callRpc("getAddresses", {}, function(returnValue)
     {
         if (returnValue.success)
         {
+			
             var resultNode = document.getElementById("rpc-result");
 
             if (returnValue.result.hasOwnProperty("error"))
@@ -144,13 +147,88 @@ function getAddresses()
             {
                 /* eep! */
                 var json = returnValue.result.result;
-
-                resultNode.innerHTML = "Address " + json.addresses;
+                userAddress = json.addresses;
             }
         }
     });
 }
 
+function getTransactions()
+{
+	var params =
+    {
+        "blockCount" : 100000,
+		"firstBlockIndex":5
+    };
+    var returnValue = callRpc("getTransactions", params, function(returnValue)
+    {
+		console.log(returnValue);
+        if (returnValue.success)
+        {
+            var resultNode = document.getElementById("rpc-result");
+
+            if (returnValue.result.hasOwnProperty("error"))
+            {
+                resultNode.innerHTML = "Failed to get transactions, error: "
+                                     + returnValue.result.error.message;
+            }
+            else
+            { 
+                resultNode.innerHTML = returnValue.result.result.items;
+            }
+        }
+    });
+}
+// Tread lightly
+function getKeys()
+{
+	spendKey = 0;
+	viewKey = 0;
+	var returnValue = callRpc("getViewKey", {}, function(returnValue)
+    {
+        if (returnValue.success)
+        {
+            var resultNode = document.getElementById("rpc-result");
+
+            if (returnValue.result.hasOwnProperty("error"))
+            {
+                resultNode.innerHTML = "Failed to get keys, error: "
+                                     + returnValue.result.error.message;
+            }
+            else
+            { 
+                viewKey = returnValue.result.result.viewSecretKey;
+				resultNode.innerHTML = "IMPORTANT: DO NOT SHARE THESE KEYS WITH ANYONE!! <br>View Key: "
+                                     + viewKey;
+            }
+        }
+    });
+	var params =
+	{
+	"address" : userAddress[0]
+	};
+	var returnValue = callRpc("getSpendKeys", params, function(returnValue)
+    {
+        if (returnValue.success)
+        {
+            var resultNode = document.getElementById("rpc-result");
+
+            if (returnValue.result.hasOwnProperty("error"))
+            {
+                resultNode.innerHTML = "Failed to get keys, error: "
+                                     + returnValue.result.error.message;
+            }
+            else
+            { 
+                spendKey = returnValue.result.result.spendSecretKey;
+				console.log(spendKey);
+				resultNode.innerHTML += "<br>Spend Key: "
+                                     + spendKey;
+            }
+        }
+    });
+	
+}
 
 $(document).ready(function()
 {
@@ -161,7 +239,7 @@ $(document).ready(function()
 
     $('#getBalance').click(function()
     {
-        console.log('getBalance() clicked...')
+        console.log('getBalance() clicked...');
         getBalance();
     });
 
@@ -209,7 +287,18 @@ $(document).ready(function()
     });
 	$('#getAddresses').click(function()
     {
-        console.log('getAddresses() clicked...')
-        getAddresses();
+        console.log('getAddresses() clicked...');
+        resultNode.innerHTML = "Address " + userAddress;
+    });
+	$('#getTransactions').click(function()
+    {
+        console.log('getTransactions() clicked...');
+        getTransactions();
     });
 });
+
+
+window.addEventListener('load', 
+  function() { 
+    getAddresses();
+  }, false);
