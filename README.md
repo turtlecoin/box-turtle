@@ -14,5 +14,4 @@ If you want to change the RPC password, set it in the config.js file.
 
 Make sure you are using a version of walletd that supports the --enable-cors arg, launch walletd with --help to verify.
 
-- [ ] TODO: Add last 10 transactions
 
