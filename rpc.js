@@ -127,12 +127,15 @@ function getBalance()
     });
 }
 
+
+ 
 function getAddresses()
 {
     var returnValue = callRpc("getAddresses", {}, function(returnValue)
     {
         if (returnValue.success)
         {
+			
             var resultNode = document.getElementById("rpc-result");
 
             if (returnValue.result.hasOwnProperty("error"))
@@ -144,13 +147,108 @@ function getAddresses()
             {
                 /* eep! */
                 var json = returnValue.result.result;
-
-                resultNode.innerHTML = "Address " + json.addresses;
+                userAddress = json.addresses;
             }
         }
     });
 }
 
+function getTransactions()
+{
+	var params =
+    {
+        "blockCount" : 100000,
+		"firstBlockIndex":1
+    };
+    var returnValue = callRpc("getTransactions", params, function(returnValue)
+    {
+		console.log(returnValue);
+        if (returnValue.success)
+        {
+            var resultNode = document.getElementById("rpc-result");
+
+            if (returnValue.result.hasOwnProperty("error"))
+            {
+                resultNode.innerHTML = "Failed to get transactions, error: "
+                                     + returnValue.result.error.message;
+            }
+            else
+            { 
+                var json = returnValue.result.result.items;
+
+                // Makes sure only prints last 10 transactions
+				if (json.length > 10) {
+                    var startFrom = json.length - 10;
+                } else if (json.length < 10) {
+                    var startFrom = 0;
+                };
+
+                if (json.length>0) {
+					for (var i=startFrom;i<json.length;i++) {
+						console.log(json[i].transactions[0].amount);
+						if (json[i].transactions[0].amount > 0) {
+							resultNode.innerHTML += "Transfer recived! Amount " + fromAtomic(json[i].transactions[0].amount);
+						} else {
+							resultNode.innerHTML += "Transfer Sent! Amount " + fromAtomic(json[i].transactions[0].amount);
+						}
+						resultNode.innerHTML += "<br>";
+					}
+				} else {
+					resultNode.innerHTML += "No Transactions";
+				}
+			}
+        }
+    });
+}
+// Tread lightly
+function getKeys()
+{
+	spendKey = 0;
+	viewKey = 0;
+	var returnValue = callRpc("getViewKey", {}, function(returnValue)
+    {
+        if (returnValue.success)
+        {
+            var resultNode = document.getElementById("rpc-result");
+
+            if (returnValue.result.hasOwnProperty("error"))
+            {
+                resultNode.innerHTML = "Failed to get keys, error: "
+                                     + returnValue.result.error.message;
+            }
+            else
+            { 
+                viewKey = returnValue.result.result.viewSecretKey;
+				resultNode.innerHTML = "IMPORTANT: DO NOT SHARE THESE KEYS WITH ANYONE!! <br>View Key: "
+                                     + viewKey;
+            }
+        }
+    });
+	var params =
+	{
+	"address" : userAddress[0]
+	};
+	var returnValue = callRpc("getSpendKeys", params, function(returnValue)
+    {
+        if (returnValue.success)
+        {
+            var resultNode = document.getElementById("rpc-result");
+
+            if (returnValue.result.hasOwnProperty("error"))
+            {
+                resultNode.innerHTML = "Failed to get keys, error: "
+                                     + returnValue.result.error.message;
+            }
+            else
+            { 
+                spendKey = returnValue.result.result.spendSecretKey;
+				resultNode.innerHTML += "<br>Spend Key: "
+                                     + spendKey;
+            }
+        }
+    });
+	
+}
 
 $(document).ready(function()
 {
@@ -161,7 +259,7 @@ $(document).ready(function()
 
     $('#getBalance').click(function()
     {
-        console.log('getBalance() clicked...')
+        console.log('getBalance() clicked...');
         getBalance();
     });
 
@@ -209,7 +307,18 @@ $(document).ready(function()
     });
 	$('#getAddresses').click(function()
     {
-        console.log('getAddresses() clicked...')
-        getAddresses();
+        console.log('getAddresses() clicked...');
+		getAddresses();
+        resultNode.innerHTML = "Address " + userAddress;
+    });
+	$('#getTransactions').click(function()
+    {
+        console.log('getTransactions() clicked...');
+        getTransactions();
+    });
+	$('#getKeys').click(function()
+    {
+        console.log('getKeys() clicked...');
+        getKeys();
     });
 });
