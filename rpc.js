@@ -157,8 +157,8 @@ function getTransactions()
 {
 	var params =
     {
-        "blockCount" : 10,
-		"firstBlockIndex":5
+        "blockCount" : 100000,
+		"firstBlockIndex":1
     };
     var returnValue = callRpc("getTransactions", params, function(returnValue)
     {
@@ -174,11 +174,19 @@ function getTransactions()
             }
             else
             { 
-				var json = returnValue.result.result.items;
-				if (json.length>0) {
-					for (var i=0;i<json.length;i++) {
-						console.log(json[i].transactions)
-						if (json[i].transactions.amount > 0) {
+                var json = returnValue.result.result.items;
+
+                // Makes sure only prints last 10 transactions
+				if (json.length > 10) {
+                    var startFrom = json.length - 10;
+                } else if (json.length < 10) {
+                    var startFrom = 0;
+                };
+
+                if (json.length>0) {
+					for (var i=startFrom;i<json.length;i++) {
+						console.log(json[i].transactions[0].amount);
+						if (json[i].transactions[0].amount > 0) {
 							resultNode.innerHTML += "Transfer recived! Amount " + fromAtomic(json[i].transactions[0].amount);
 						} else {
 							resultNode.innerHTML += "Transfer Sent! Amount " + fromAtomic(json[i].transactions[0].amount);
