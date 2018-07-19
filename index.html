@@ -61,23 +61,28 @@
     text-decoration: none;
     cursor: pointer;
 }
-.HamburgerShowMore{
-  font-size: 14px;
-  display:block;
-  text-decoration: underline;  
+
+/* Better Collapsible for Port and Address */
+.collapsible {
+  background-color: #eee;
+  color: #444;
   cursor: pointer;
-  
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
 }
-.HamburgerShowMore + input{
-  display:none;
+.active, .collapsible:hover {
+  background-color: #ccc;
 }
-.HamburgerShowMore + input + *{
-  display:none;
-}
-.HamburgerShowMore + input:checked + *{
-  display:block;
-    
-}
+.collapsibleContent {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+} 
 </style>
 </head>
 <body>
@@ -90,28 +95,32 @@
       </div>
     </div><br>
     <!-- HOST AND PORT -->
-	<label class="btn btn-lrg btn-info HamburgerShowMore" for="_1"><h4>Show Walletd host and port</h4></label>
-	<input id="_1" type="checkbox">
-    <div class="row">
-      <div class="col-8">
-        <div class="input-group input-group-lg">
-          <div class="input-group-prepend">
-            <div class="input-group-text">
-              <strong>💳 Host</strong>
-            </div>
-          </div><input class="form-control" id="rpcHost" name="textinput" type="text" value="" placeholder="Host">
-        </div>
-      </div>
-      <div class="col">
-        <div class="input-group input-group-lg">
-          <div class="input-group-prepend">
-            <div class="input-group-text">
-              <strong>🔌 Port</strong>
-            </div>
-          </div><input class="form-control" id="rpcPort" name="textinput" type="text" value="" placeholder="Port">
-        </div>
-      </div>
-    </div><br>
+	<button class="collapsible">Show Walletd host and port</button>
+	
+	<div class="collapsibleContent">
+		<br>
+		<div class="row">
+		  <div class="col-8">
+			<div class="input-group input-group-lg">
+			  <div class="input-group-prepend">
+				<div class="input-group-text">
+				  <strong>💳 Host</strong>
+				</div>
+			  </div><input class="form-control" id="rpcHost" name="textinput" type="text" value="" placeholder="Host">
+			</div>
+		  </div>
+		  <div class="col">
+			<div class="input-group input-group-lg">
+			  <div class="input-group-prepend">
+				<div class="input-group-text">
+				  <strong>🔌 Port</strong>
+				</div>
+			  </div><input class="form-control" id="rpcPort" name="textinput" type="text" value="" placeholder="Port">
+			</div>
+		  </div>
+		</div><br>
+	</div>
+	<br><br>
     <!-- TRANSFER TO: RECIPIENT -->
     <div class="row">
       <div class="col rpc-method">
@@ -162,14 +171,11 @@
       <div class="col rpc-method">
         <button class="btn btn-success btn-block btn-lg" id="getBalance" data-method="getBalance">Check Balance</button>
       </div>
-	  <div class="col rpc-method">
-        <button class="btn btn-primary btn-block btn-lg" id="getTransactions" data-method="getTransactions">Check Transactions</button>
-      </div>
-	  <div class="col rpc-method">
-        <button class="btn btn-info btn-block btn-lg" id="getAddresses" data-method="getAddresses">Get Address</button>
-      </div>
       <div class="col rpc-method">
         <button class="btn btn-warning btn-block btn-lg" id="Modalbtn">Transfer Funds</button> <!-- Calls modal -->
+      </div>
+	  <div class="col rpc-method">
+        <button class="btn btn-primary btn-block btn-lg" id="Modal2btn">More Options</button>
       </div>
     </div>
 	<!-- RESULTS -->
@@ -192,25 +198,71 @@
     <p id="Modaltext">Confirm</p><br><button class="btn btn-danger btn-block" id="sendTransaction" data-method="sendTransaction">Yes, transfer</button>
 
   </div>
+  </div>
+  
+  <div id="Modal2" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="Modalclose">&times;</span>
+    <p>More Options:</p><br>
+	
+	<button class="btn btn-primary btn-block" id="getAddresses" data-method="getAddresses">Get Address</button>
+	
+	<button class="btn btn-primary btn-block" id="getTransactions" data-method="getTransactions">Get Transactions</button>
+	
+	<button class="btn btn-primary btn-block" id="getKeys" data-method="getKeys">Get Keys</button>
+
+  </div>
+  </div>
   <script>
 var modal = document.getElementById('Modal');
 var Modalbtn = document.getElementById("Modalbtn");
 var span = document.getElementsByClassName("Modalclose")[0];
+var span2 = document.getElementsByClassName("Modalclose")[1];
 Modalbtn.onclick = function() {
 	document.getElementById("Modaltext").innerHTML = "Are you sure you want to transfer " + document.getElementById('amount').value + " TRTL with " + document.getElementById('fee').value + " fee, to " + document.getElementById('address').value + " ?";
     modal.style.display = "block";
 }
 
-// When the user clicks on <span> (x), close the modal
+
+
+
+var modal2 = document.getElementById('Modal2');
+var Modal2btn = document.getElementById("Modal2btn");
+Modal2btn.onclick = function() {
+    modal2.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close both modals
 span.onclick = function() {
-    modal.style.display = "none";
+	modal.style.display = "none";
+}
+span2.onclick = function() {
+    modal2.style.display = "none";
 }
 window.onclick = function(event) {
-    if (event.target == modal) {
+    if (event.target == modal2) {
+        modal2.style.display = "none";
+    }
+	if (event.target == modal) {
         modal.style.display = "none";
     }
 }
 
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+} 
 </script>
 </div>
 </body>

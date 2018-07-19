@@ -157,7 +157,7 @@ function getTransactions()
 {
 	var params =
     {
-        "blockCount" : 100000,
+        "blockCount" : 10,
 		"firstBlockIndex":5
     };
     var returnValue = callRpc("getTransactions", params, function(returnValue)
@@ -174,8 +174,21 @@ function getTransactions()
             }
             else
             { 
-                resultNode.innerHTML = returnValue.result.result.items;
-            }
+				var json = returnValue.result.result.items;
+				if (json.length>0) {
+					for (var i=0;i<json.length;i++) {
+						console.log(json[i].transactions)
+						if (json[i].transactions.amount > 0) {
+							resultNode.innerHTML += "Transfer recived! Amount " + fromAtomic(json[i].transactions[0].amount);
+						} else {
+							resultNode.innerHTML += "Transfer Sent! Amount " + fromAtomic(json[i].transactions[0].amount);
+						}
+						resultNode.innerHTML += "<br>";
+					}
+				} else {
+					resultNode.innerHTML += "No Transactions";
+				}
+			}
         }
     });
 }
@@ -221,7 +234,6 @@ function getKeys()
             else
             { 
                 spendKey = returnValue.result.result.spendSecretKey;
-				console.log(spendKey);
 				resultNode.innerHTML += "<br>Spend Key: "
                                      + spendKey;
             }
@@ -288,12 +300,18 @@ $(document).ready(function()
 	$('#getAddresses').click(function()
     {
         console.log('getAddresses() clicked...');
+		getAddresses();
         resultNode.innerHTML = "Address " + userAddress;
     });
 	$('#getTransactions').click(function()
     {
         console.log('getTransactions() clicked...');
         getTransactions();
+    });
+	$('#getKeys').click(function()
+    {
+        console.log('getKeys() clicked...');
+        getKeys();
     });
 });
 
