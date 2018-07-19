@@ -314,9 +314,3 @@ $(document).ready(function()
         getKeys();
     });
 });
-
-
-window.addEventListener('load', 
-  function() { 
-    getAddresses();
-  }, false);
