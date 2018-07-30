@@ -158,7 +158,7 @@ function getTransactions()
 {
 	var params =
     {
-        "blockCount" : 100000,
+        "blockCount" : 100000000,
 		"firstBlockIndex":1
     };
     var returnValue = callRpc("getTransactions", params, function(returnValue)
@@ -334,9 +334,18 @@ $(document).ready(function()
         if (extra) {
                 console.log("has extra");
                 
-                if (!(/^[0-9A-F]$/i.test(paymentId))) {
-                    resultNode.innerHTML = "Extra is not a hexdecimal byte string!"
-                    return;
+                if (!(/^[0-9A-F]$/i.test(extra))) {
+                    console.log("Extra is not a hexdecimal byte string! Converting automajically")
+                
+
+                    var arr1 = [];
+                    for (var n = 0, l = extra.length; n < l; n ++) 
+                     {
+                        var hex = Number(extra.charCodeAt(n)).toString(16);
+                        arr1.push(hex);
+                     }
+                    extra = arr1.join('');
+                    console.log(extra)
                 }
         }
         if (extra && paymentId) {
