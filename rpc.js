@@ -330,6 +330,7 @@ $(document).ready(function()
 					resultNode.innerHTML = "PaymentId is not a hexdecimal 64 byte string!"
 					return;
 				}
+                sendTransaction(address, amount, fee, paymentId);
 		}
         if (extra) {
                 console.log("has extra");
@@ -346,14 +347,15 @@ $(document).ready(function()
                      }
                     extra = arr1.join('');
                     console.log(extra)
+                    sendTransaction(address, amount, fee, extra);
                 }
         }
         if (extra && paymentId) {
-            resultNode = "Cannot have paymentId and extra set!";
+            resultNode.innerHTML = "Cannot have paymentId and extra set!";
             return;
         }
 
-        sendTransaction(address, amount, fee, extra, paymentId);
+        
     });
 	$('#getAddresses').click(function()
     {
