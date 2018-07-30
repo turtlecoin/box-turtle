@@ -67,13 +67,14 @@ function callRpc(method, params, callback)
     });
 }
 
-function sendTransaction(address, amount, fee, paymentId)
+function sendTransaction(address, amount, fee, extra, paymentId)
 {
     var params =
     {
         "transfers" : [{address: address, amount: toAtomic(amount)}],
         "fee" : toAtomic(fee),
         "anonymity" : config.mixin,
+        "extra" : extra,
 		"paymentId" : paymentId
     };
 
@@ -157,7 +158,7 @@ function getTransactions()
 {
 	var params =
     {
-        "blockCount" : 100000,
+        "blockCount" : 100000000,
 		"firstBlockIndex":1
     };
     var returnValue = callRpc("getTransactions", params, function(returnValue)
@@ -249,6 +250,33 @@ function getKeys()
     });
 	
 }
+function getStatus()
+{
+    var returnValue = callRpc("getStatus", {}, function(returnValue)
+    {
+        if (returnValue.success)
+        {
+            
+            var resultNode = document.getElementById("rpc-result");
+
+            if (returnValue.result.hasOwnProperty("error"))
+            {
+                resultNode.innerHTML = "Failed to get address, error: "
+                                     + returnValue.result.error.message;
+            }
+            else
+            {
+                /* eep! */
+                var json = returnValue.result.result;
+                if ((json.knownBlockCount - json.blockCount) > 10) {
+                    resultNode.innerHTML = "Syncing, block " + json.blockCount + " of " + json.knownBlockCount;
+                } else {
+                    resultNode.innerHTML = "Done syncing, you can use your wallet safely"
+                }
+            }
+        }
+    });
+}
 
 $(document).ready(function()
 {
@@ -272,6 +300,7 @@ $(document).ready(function()
         var amount = $("#amount").val();
         var fee = $("#fee").val();
 		var paymentId = $("#paymentId").val();
+        var extra = $("#extra").val();
 
         if (address.length != config.addressLength || !address.startsWith("TRTL"))
         {
@@ -301,9 +330,32 @@ $(document).ready(function()
 					resultNode.innerHTML = "PaymentId is not a hexdecimal 64 byte string!"
 					return;
 				}
+                sendTransaction(address, amount, fee, paymentId);
 		}
+        if (extra) {
+                console.log("has extra");
+                
+                if (!(/^[0-9A-F]$/i.test(extra))) {
+                    console.log("Extra is not a hexdecimal byte string! Converting automajically")
+                
 
-        sendTransaction(address, amount, fee, paymentId);
+                    var arr1 = [];
+                    for (var n = 0, l = extra.length; n < l; n ++) 
+                     {
+                        var hex = Number(extra.charCodeAt(n)).toString(16);
+                        arr1.push(hex);
+                     }
+                    extra = arr1.join('');
+                    console.log(extra)
+                    sendTransaction(address, amount, fee, extra);
+                }
+        }
+        if (extra && paymentId) {
+            resultNode.innerHTML = "Cannot have paymentId and extra set!";
+            return;
+        }
+
+        
     });
 	$('#getAddresses').click(function()
     {
@@ -320,5 +372,10 @@ $(document).ready(function()
     {
         console.log('getKeys() clicked...');
         getKeys();
+    });
+    $('#getStatus').click(function()
+    {
+        console.log('getStatus() clicked...');
+        getStatus();
     });
 });
