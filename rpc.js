@@ -331,7 +331,7 @@ $(document).ready(function()
 					return;
 				}
 		}
-        if (paymentId) {
+        if (extra) {
                 console.log("has extra");
                 
                 if (!(/^[0-9A-F]$/i.test(paymentId))) {
@@ -339,8 +339,12 @@ $(document).ready(function()
                     return;
                 }
         }
+        if (extra && paymentId) {
+            resultNode = "Cannot have paymentId and extra set!";
+            return;
+        }
 
-        sendTransaction(address, amount, fee, paymentId);
+        sendTransaction(address, amount, fee, extra, paymentId);
     });
 	$('#getAddresses').click(function()
     {
