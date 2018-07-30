@@ -67,13 +67,14 @@ function callRpc(method, params, callback)
     });
 }
 
-function sendTransaction(address, amount, fee, paymentId)
+function sendTransaction(address, amount, fee, extra, paymentId)
 {
     var params =
     {
         "transfers" : [{address: address, amount: toAtomic(amount)}],
         "fee" : toAtomic(fee),
         "anonymity" : config.mixin,
+        "extra" : extra,
 		"paymentId" : paymentId
     };
 
@@ -249,6 +250,33 @@ function getKeys()
     });
 	
 }
+function getStatus()
+{
+    var returnValue = callRpc("getStatus", {}, function(returnValue)
+    {
+        if (returnValue.success)
+        {
+            
+            var resultNode = document.getElementById("rpc-result");
+
+            if (returnValue.result.hasOwnProperty("error"))
+            {
+                resultNode.innerHTML = "Failed to get address, error: "
+                                     + returnValue.result.error.message;
+            }
+            else
+            {
+                /* eep! */
+                var json = returnValue.result.result;
+                if ((json.knownBlockCount - json.blockCount) > 10) {
+                    resultNode.innerHTML = "Syncing, block " + json.blockCount + " of " + json.knownBlockCount;
+                } else {
+                    resultNode.innerHTML = "Done syncing, you can use your wallet safely"
+                }
+            }
+        }
+    });
+}
 
 $(document).ready(function()
 {
@@ -272,6 +300,7 @@ $(document).ready(function()
         var amount = $("#amount").val();
         var fee = $("#fee").val();
 		var paymentId = $("#paymentId").val();
+        var extra = $("#extra").val();
 
         if (address.length != config.addressLength || !address.startsWith("TRTL"))
         {
@@ -302,6 +331,14 @@ $(document).ready(function()
 					return;
 				}
 		}
+        if (paymentId) {
+                console.log("has extra");
+                
+                if (!(/^[0-9A-F]$/i.test(paymentId))) {
+                    resultNode.innerHTML = "Extra is not a hexdecimal byte string!"
+                    return;
+                }
+        }
 
         sendTransaction(address, amount, fee, paymentId);
     });
@@ -320,5 +357,10 @@ $(document).ready(function()
     {
         console.log('getKeys() clicked...');
         getKeys();
+    });
+    $('#getStatus').click(function()
+    {
+        console.log('getStatus() clicked...');
+        getStatus();
     });
 });
