@@ -10,7 +10,7 @@ Note: Don't port forward your wallet, or you will lose everything. If you dont k
 If you have never made a TRTL wallet, download the latest release of [TurtleCoin](http://latest.turtlecoin.lol) and move the `walletd` file to the same folder as your box turtle. Then, you can generate a new wallet by copy and pasting these commands:
 
 
-Note: If you need hellp with any of these steps, head on down to the [Official TurtleCoin discord server](http://chat.turtlecoin.lol)! They are very friendly and will gladly help you.
+Note: If you need help with any of these steps, head on down to the [Official TurtleCoin discord server](http://chat.turtlecoin.lol)! They are very friendly and will gladly help you.
 
 Linux/Mac:
 `./walletd -g -w YOURWALLET.wallet -p YOURPASSWORD --rpc-password test --daemon-address public.turtlenode.io --enable-cors "*"`
