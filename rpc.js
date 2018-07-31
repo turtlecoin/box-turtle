@@ -69,14 +69,30 @@ function callRpc(method, params, callback)
 
 function sendTransaction(address, amount, fee, extra, paymentId)
 {
-    var params =
-    {
-        "transfers" : [{address: address, amount: toAtomic(amount)}],
-        "fee" : toAtomic(fee),
-        "anonymity" : config.mixin,
-        "extra" : extra,
-		"paymentId" : paymentId
-    };
+    if (extra) {
+        var params =
+        {
+            "transfers" : [{address: address, amount: toAtomic(amount)}],
+            "fee" : toAtomic(fee),
+            "anonymity" : config.mixin,
+            "extra" : extra
+        };
+    } else if (paymentId) {
+        var params =
+        {
+            "transfers" : [{address: address, amount: toAtomic(amount)}],
+            "fee" : toAtomic(fee),
+            "anonymity" : config.mixin,
+            "paymentId" : paymentId
+        };
+    } else {
+        var params =
+        {
+            "transfers" : [{address: address, amount: toAtomic(amount)}],
+            "fee" : toAtomic(fee),
+            "anonymity" : config.mixin
+        };
+    }
 
     var returnValue = callRpc("sendTransaction", params, function(returnValue)
     {
@@ -330,12 +346,12 @@ $(document).ready(function()
 					resultNode.innerHTML = "PaymentId is not a hexdecimal 64 byte string!"
 					return;
 				}
-                sendTransaction(address, amount, fee, paymentId);
+                sendTransaction(address, amount, fee, null, paymentId);
 		}
         if (extra) {
                 console.log("has extra");
                 
-                if (!(/^[0-9A-F]$/i.test(extra))) {
+                if (!(/^[0-9a-fA-F]+$/.test(extra))) {
                     console.log("Extra is not a hexdecimal byte string! Converting automajically")
                 
 
@@ -347,14 +363,17 @@ $(document).ready(function()
                      }
                     extra = arr1.join('');
                     console.log(extra)
-                    sendTransaction(address, amount, fee, extra);
                 }
+                sendTransaction(address, amount, fee, extra, null);
         }
         if (extra && paymentId) {
             resultNode.innerHTML = "Cannot have paymentId and extra set!";
             return;
         }
-
+        if (!(extra || paymentId)) {
+            sendTransaction(address, amount, fee);
+        }
+        
         
     });
 	$('#getAddresses').click(function()
