@@ -7,6 +7,8 @@ Note: Don't port forward your wallet, or you will lose everything. If you dont k
 ![image](https://user-images.githubusercontent.com/34389545/41516136-7ff3acf4-72a2-11e8-8241-7afb6daa9c12.png)
 --
 
+You can see a demo of what your wallet will look like [Here](https://turtle-coin.com/box-turtle-demo/)
+
 If you have never made a TRTL wallet, download the latest release of [TurtleCoin](http://latest.turtlecoin.lol) and move the `walletd` file to the same folder as your box turtle. Then, you can generate a new wallet by copy and pasting these commands:
 
 
