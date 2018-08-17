@@ -12,6 +12,6 @@ else
   echo "file doesn't exist"
   ./scripts/turtle-service.exe -g -w ./scripts/${user} -p "${pass}" --rpc-password test --daemon-address public.turtlenode.io --enable-cors '*'
   sleep 1
-  ./scripts/turtle-service.exe -w s./scripts/${user} -p "${pass}" --rpc-password test --daemon-address public.turtlenode.io --enable-cors '*'
+  ./scripts/turtle-service.exe -w ./scripts/${user} -p "${pass}" --rpc-password test --daemon-address public.turtlenode.io --enable-cors '*'
   xdg-open ./scripts/index.html
 fi
