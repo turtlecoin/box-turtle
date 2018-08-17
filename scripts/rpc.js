@@ -318,10 +318,10 @@ $(document).ready(function()
 		var paymentId = $("#paymentId").val();
         var extra = $("#extra").val();
 
-        if (address.length != config.addressLength || !address.startsWith("TRTL"))
+        if ((address.length != config.addressLength && address.length != config.integratedLength) || !address.startsWith("TRTL"))
         {
             resultNode.innerHTML = "Address is incorrect length! Should be "
-                                 + config.addressLength + " characters and start with TRTL.";
+                                 + config.addressLength + " or " + config.integratedLength + " characters and start with TRTL.";
             return;
         }
 
