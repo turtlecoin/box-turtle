@@ -26,9 +26,9 @@ function callRpc(method, params, callback)
     };
 
     console.log('Sending RPC request to ' + url + ' with parameters: ' + JSON.stringify(params))
-    
+
     console.log('Sending RPC request to ' + url + ' with parameters: ' + JSON.stringify(params))
-    
+
     var resultNode = document.getElementById("rpc-result");
     /* Clear any previous errors */
     resultNode.innerHTML = "";
@@ -47,7 +47,7 @@ function callRpc(method, params, callback)
 
         error: function(jqXHR, textStatus, errorThrown)
         {
-            console.log('Failed to contact walletd: jqXHR = ' + jqXHR + 
+            console.log('Failed to contact walletd: jqXHR = ' + jqXHR +
                         ', textStatus = ' + textStatus + ', errorThrown = ' +
                         errorThrown)
 
@@ -74,7 +74,6 @@ function sendTransaction(address, amount, fee, extra, paymentId)
         {
             "transfers" : [{address: address, amount: toAtomic(amount)}],
             "fee" : toAtomic(fee),
-            "anonymity" : config.mixin,
             "extra" : extra
         };
     } else if (paymentId) {
@@ -82,7 +81,6 @@ function sendTransaction(address, amount, fee, extra, paymentId)
         {
             "transfers" : [{address: address, amount: toAtomic(amount)}],
             "fee" : toAtomic(fee),
-            "anonymity" : config.mixin,
             "paymentId" : paymentId
         };
     } else {
@@ -90,7 +88,6 @@ function sendTransaction(address, amount, fee, extra, paymentId)
         {
             "transfers" : [{address: address, amount: toAtomic(amount)}],
             "fee" : toAtomic(fee),
-            "anonymity" : config.mixin
         };
     }
 
@@ -145,14 +142,14 @@ function getBalance()
 }
 
 
- 
+
 function getAddresses()
 {
     var returnValue = callRpc("getAddresses", {}, function(returnValue)
     {
         if (returnValue.success)
         {
-			
+
             var resultNode = document.getElementById("rpc-result");
 
             if (returnValue.result.hasOwnProperty("error"))
@@ -190,7 +187,7 @@ function getTransactions()
                                      + returnValue.result.error.message;
             }
             else
-            { 
+            {
                 var json = returnValue.result.result.items;
 
                 // Makes sure only prints last 10 transactions
@@ -234,7 +231,7 @@ function getKeys()
                                      + returnValue.result.error.message;
             }
             else
-            { 
+            {
                 viewKey = returnValue.result.result.viewSecretKey;
 				resultNode.innerHTML = "IMPORTANT: DO NOT SHARE THESE KEYS WITH ANYONE!! <br>View Key: "
                                      + viewKey;
@@ -257,14 +254,14 @@ function getKeys()
                                      + returnValue.result.error.message;
             }
             else
-            { 
+            {
                 spendKey = returnValue.result.result.spendSecretKey;
 				resultNode.innerHTML += "<br>Spend Key: "
                                      + spendKey;
             }
         }
     });
-	
+
 }
 function getStatus()
 {
@@ -272,7 +269,7 @@ function getStatus()
     {
         if (returnValue.success)
         {
-            
+
             var resultNode = document.getElementById("rpc-result");
 
             if (returnValue.result.hasOwnProperty("error"))
@@ -338,10 +335,10 @@ $(document).ready(function()
                                  + config.minFee + " TRTL.";
             return;
         }
-		
+
 		if (paymentId) {
 				console.log("has PaymentId");
-				
+
 				if (!(/^[0-9A-F]{64}$/i.test(paymentId))) {
 					resultNode.innerHTML = "PaymentId is not a hexdecimal 64 byte string!"
 					return;
@@ -350,13 +347,13 @@ $(document).ready(function()
 		}
         if (extra) {
                 console.log("has extra");
-                
+
                 if (!(/^[0-9a-fA-F]+$/.test(extra))) {
                     console.log("Extra is not a hexdecimal byte string! Converting automajically")
-                
+
 
                     var arr1 = [];
-                    for (var n = 0, l = extra.length; n < l; n ++) 
+                    for (var n = 0, l = extra.length; n < l; n ++)
                      {
                         var hex = Number(extra.charCodeAt(n)).toString(16);
                         arr1.push(hex);
@@ -373,8 +370,8 @@ $(document).ready(function()
         if (!(extra || paymentId)) {
             sendTransaction(address, amount, fee);
         }
-        
-        
+
+
     });
 	$('#getAddresses').click(function()
     {
